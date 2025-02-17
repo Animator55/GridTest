@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+grid-template-columns: repeat(auto-fill, calc(33% - 3px));
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grid Test</title>
+    <style>
+
+    </style>
+</head>
+
+<body>
+
+    <div class="grid" id="grid"></div>
+
+    <script>
+        const grid = document.getElementById("grid");
+
+        // Generador de números aleatorios dentro de un rango
+        function random(min, max) {
+            return Math.floor(Math.random() * (max - min + 1) + min);
+        }
+
+        // Crea un nuevo elemento de la grid con tamaño aleatorio
+        function createItem(index) {
+            const item = document.createElement("div");
+            item.classList.add("item");
+
+            // Definir tamaño aleatorio
+            const sizes = ["1x1", "1x2"];
+            const size = sizes[random(0, sizes.length - 1)];
+            item.dataset.size = size;
+
+            // Asignar color y contenido
+            item.style.setProperty("--hue", Math.random()); // Color aleatorio
+            item.textContent = `#${index}`;
+
+            return item;
+        }
+
+        // Carga inicial de elementos
+        let itemCount = 0;
+        function loadMoreItems(count = 12) {
+            for (let i = 0; i < count; i++) {
+                grid.appendChild(createItem(++itemCount));
+            }
+            // Mover el sentinel al final para seguir detectando scroll
+            grid.appendChild(sentinel);
+        }
+
+        // Agrega un "sentinel" para detectar el scroll
+        const sentinel = document.createElement("div");
+        sentinel.style.height = "1px";
+        grid.appendChild(sentinel);
+
+        const observer = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting) {
+                loadMoreItems(); // Cargar más elementos al llegar al final
+            }
+        }, { rootMargin: "200px" });
+
+        observer.observe(sentinel);
+
+        // Cargar los primeros elementos
+        loadMoreItems(20);
+    </script>
+
+
+</body>
+
+</html>

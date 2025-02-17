@@ -1,0 +1,36 @@
+$min-height: 50px; // Altura mínima
+$max-height: 200px; // Altura máxima
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 10px;
+    padding: 20px;
+}
+
+// Estilos para los ítems de la grid
+.item {
+    background: hsl(calc(360 * var(--hue)), 70%, 60%);
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    padding: 20px;
+}
+
+// Genera altura aleatoria para cada elemento
+@for $i from 1 through 100 {
+    .item:nth-child(#{$i}) {
+        grid-row-end: span #{random($max-height - $min-height) + $min-height}; // Altura aleatoria
+    }
+}
