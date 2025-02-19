@@ -1,24 +1,26 @@
 <!DOCTYPE html>
 <html lang="es">
-grid-template-columns: repeat(auto-fill, calc(33% - 3px));
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grid Test</title>
-    <style>
+    <link rel="stylesheet" href="styles.css">
 
-    </style>
 </head>
 
 <body>
-
-    <div class="grid" id="grid"></div>
+    <div class="grid fisheye" id="grid">
+    </div>
 
     <script>
-        const grid = document.getElementById("grid");
+        const list = document.querySelector(".grid");
+        let startIndex = 1;
+        let endIndex = 60;
+        const bufferSize = 20;
 
-        // Generador de números aleatorios dentro de un rango
+        // Función para crear un ítem con altura basada en índice
+
         function random(min, max) {
             return Math.floor(Math.random() * (max - min + 1) + min);
         }
@@ -27,44 +29,65 @@ grid-template-columns: repeat(auto-fill, calc(33% - 3px));
         function createItem(index) {
             const item = document.createElement("div");
             item.classList.add("item");
-
+            item.id = "item-" + index
+            
             // Definir tamaño aleatorio
-            const sizes = ["1x1", "1x2"];
-            const size = sizes[random(0, sizes.length - 1)];
-            item.dataset.size = size;
+            
+            const img = document.createElement("img");
+            let number = Math.floor(Math.random() * 8)
+            img.src = "./images/image"+number+ (number === 0 ? ".png":".jpg")
+            item.appendChild(img)
 
             // Asignar color y contenido
-            item.style.setProperty("--hue", Math.random()); // Color aleatorio
-            item.textContent = `#${index}`;
+            // item.style.setProperty("--hue", Math.random()); // Color aleatorio
+            // item.textContent = `#${index}`;
 
             return item;
         }
 
-        // Carga inicial de elementos
-        let itemCount = 0;
-        function loadMoreItems(count = 12) {
-            for (let i = 0; i < count; i++) {
-                grid.appendChild(createItem(++itemCount));
+        // Función para poblar la lista inicialmente
+        function populateList() {
+            for (let i = startIndex; i <= endIndex; i++) {
+                list.appendChild(createItem(i));
             }
-            // Mover el sentinel al final para seguir detectando scroll
-            grid.appendChild(sentinel);
         }
 
-        // Agrega un "sentinel" para detectar el scroll
-        const sentinel = document.createElement("div");
-        sentinel.style.height = "1px";
-        grid.appendChild(sentinel);
+        // Manejo del scroll
+        function handleScroll() {
+            const items = list.children;
 
-        const observer = new IntersectionObserver((entries) => {
-            if (entries[0].isIntersecting) {
-                loadMoreItems(); // Cargar más elementos al llegar al final
+            if (items.length === 0) return
+            const firstItem = items[0];
+            const lastItem = items[items.length - 1];
+
+            const containerRect = list.parentElement.getBoundingClientRect();
+            const firstRect = firstItem.getBoundingClientRect();
+            const lastRect = lastItem.getBoundingClientRect();
+
+            if (lastRect.bottom < (containerRect.bottom * -1) + 200) {
+
+                console.log("appending")
+                for (let i = 0; i < bufferSize; i++) {
+                    list.appendChild(createItem(++endIndex));
+                    // list.removeChild(list.firstElementChild);
+                    startIndex++;
+                }
             }
-        }, { rootMargin: "200px" });
 
-        observer.observe(sentinel);
+            // Si el usuario sube demasiado, eliminamos abajo y agregamos arriba
+            // if (firstRect.top > containerRect.top - 200) {
+            //     console.log("generating")
+            //     for (let i = 0; i < bufferSize; i++) {
+            //         list.insertBefore(createItem(--startIndex), list.firstElementChild);
+            //         list.removeChild(list.lastElementChild);
+            //         endIndex--;
+            //     }
+            // }
+        }
 
-        // Cargar los primeros elementos
-        loadMoreItems(20);
+        // Inicializar lista y evento de scroll
+        populateList();
+        document.addEventListener("scroll", handleScroll);
     </script>
 
 

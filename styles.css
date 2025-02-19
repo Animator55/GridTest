@@ -1,0 +1,107 @@
+html {
+  overflow-x: hidden;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #1a1a1a;
+  overflow-x: hidden;
+}
+
+*::-webkit-scrollbar {
+  display: none;
+}
+
+.grid {
+  position: absolute;
+  width: 100%;
+  inset: 0;
+  scale: 1.1;
+  transform-origin: center;
+  display: grid;
+  grid-template-columns: repeat(4, calc(25% - 2.5px));
+  grid-auto-rows: 50px;
+  gap: 10px;
+}
+
+.item {
+  border-radius: 8px;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  filter: grayscale(1);
+  transition: filter 500ms;
+}
+.item:nth-child(1n) {
+  grid-row-end: span 4;
+}
+.item:nth-child(2n) {
+  grid-row-end: span 4;
+}
+.item:nth-child(3n) {
+  grid-row-end: span 5;
+}
+.item:nth-child(4n) {
+  grid-row-end: span 5;
+}
+.item:nth-child(5n) {
+  grid-row-end: span 6;
+}
+.item:nth-child(6n) {
+  grid-row-end: span 6;
+}
+.item:nth-child(7n) {
+  grid-row-end: span 7;
+}
+.item:nth-child(8n) {
+  grid-row-end: span 7;
+}
+.item:nth-child(9n) {
+  grid-row-end: span 8;
+}
+.item:nth-child(10n) {
+  grid-row-end: span 8;
+}
+.item img {
+  object-fit: cover;
+  width: 100%;
+  transition: all 500ms;
+}
+.item:has(+ .item + .item + .item + .item:hover) {
+  filter: grayscale(0.6) !important;
+}
+.item:has(+ .item + .item + .item:hover) {
+  filter: grayscale(0.4) !important;
+}
+.item:has(+ .item + .item:hover) {
+  filter: grayscale(0.7) !important;
+}
+.item:has(+ .item:hover) {
+  filter: grayscale(0.3) !important;
+}
+
+.item:hover {
+  transition: filter 500ms;
+  filter: none;
+}
+.item:hover img {
+  transition: all 10s ease-out;
+  scale: 2;
+}
+.item:hover + .item {
+  filter: grayscale(0.3) !important;
+}
+.item:hover + .item + .item + .item + .item {
+  filter: grayscale(0.6) !important;
+}
+.item:hover + .item + .item + .item {
+  filter: grayscale(0.4) !important;
+}
+.item:hover + .item + .item {
+  filter: grayscale(0.7) !important;
+}
+
+/*# sourceMappingURL=styles.css.map */

@@ -1,0 +1,16 @@
+{
+  "name": "gridtest",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+  "build:sass": "sass styles.scss styles.css",
+  "watch:sass": "sass styles.scss styles.css --watch"
+},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "sass": "^1.85.0"
+  }
+}

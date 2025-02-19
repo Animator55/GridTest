@@ -1,36 +1,86 @@
-$min-height: 50px; // Altura mínima
-$max-height: 200px; // Altura máxima
+$min-height: 3; // Altura mínima
+$max-height: 8; // Altura máxima
+$steps: 10;
+
+html {
+    overflow-x: hidden;
+}
 
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background: #f4f4f4;
+    background: #1a1a1a;
+    overflow-x: hidden;
+}
+
+*::-webkit-scrollbar {
+    display: none;
 }
 
 .grid {
+    position: absolute;
+    width: 100%;
+    inset: 0;
+    scale: 1.1;
+    transform-origin: center;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    grid-template-columns: repeat(4, calc(25% - 2.5px));
+    grid-auto-rows: 50px;
     gap: 10px;
-    padding: 20px;
 }
 
 // Estilos para los ítems de la grid
 .item {
-    background: hsl(calc(360 * var(--hue)), 70%, 60%);
-    text-align: center;
-    font-size: 18px;
-    font-weight: bold;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     border-radius: 8px;
-    padding: 20px;
-}
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    filter: grayscale(1);
+    transition: filter 500ms;
 
-// Genera altura aleatoria para cada elemento
-@for $i from 1 through 100 {
-    .item:nth-child(#{$i}) {
-        grid-row-end: span #{random($max-height - $min-height) + $min-height}; // Altura aleatoria
+    @for $i from 1 through $steps {
+        &:nth-child(#{$i}n) {
+            grid-row-end: span round(calc($min-height + (($max-height - $min-height) * ($i / $steps))));
+        }
+    }
+    img {
+        object-fit: cover;
+        width: 100%;
+        transition: all 500ms;
+    }
+    &:has(+ .item + .item + .item + .item:hover) {
+        filter: grayscale(0.6)!important;
+    }
+    &:has(+ .item + .item + .item:hover) {
+        filter: grayscale(0.4)!important;
+    }
+    &:has(+ .item + .item:hover) {
+        filter: grayscale(0.7)!important;
+
+    }
+    &:has(+ .item:hover) {
+        filter: grayscale(0.3)!important;
+    }
+}
+.item:hover {
+    transition: filter 500ms;
+    filter: none;
+    img {
+        transition: all 10s ease-out;
+        scale: 2;
+    }
+    + .item {
+        filter: grayscale(0.3)!important;
+    }
+    + .item + .item + .item + .item {
+        filter: grayscale(0.6)!important;
+    }
+    + .item + .item + .item {
+        filter: grayscale(0.4)!important;
+    }
+    + .item + .item {
+        filter: grayscale(0.7)!important;
     }
 }
