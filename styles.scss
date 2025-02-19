@@ -27,6 +27,17 @@ body {
     grid-template-columns: repeat(4, calc(25% - 2.5px));
     grid-auto-rows: 50px;
     gap: 10px;
+
+}
+body::before {
+    content: "";   
+    position: fixed;
+    inset: 0;
+    z-index: 3;
+    width: 100dvw;
+    height: 100dvh;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.514), transparent 11% 89%, rgba(0, 0, 0, 0.514));
+    pointer-events: none;
 }
 
 // Estilos para los ítems de la grid
@@ -45,42 +56,53 @@ body {
             grid-row-end: span round(calc($min-height + (($max-height - $min-height) * ($i / $steps))));
         }
     }
+
     img {
         object-fit: cover;
         width: 100%;
         transition: all 500ms;
     }
+
     &:has(+ .item + .item + .item + .item:hover) {
-        filter: grayscale(0.6)!important;
+        filter: grayscale(0.6) !important;
     }
+
     &:has(+ .item + .item + .item:hover) {
-        filter: grayscale(0.4)!important;
+        filter: grayscale(0.4) !important;
     }
+
     &:has(+ .item + .item:hover) {
-        filter: grayscale(0.7)!important;
+        filter: grayscale(0.7) !important;
 
     }
+
     &:has(+ .item:hover) {
-        filter: grayscale(0.3)!important;
+        filter: grayscale(0.3) !important;
     }
 }
+
 .item:hover {
     transition: filter 500ms;
     filter: none;
+
     img {
         transition: all 10s ease-out;
         scale: 2;
     }
-    + .item {
-        filter: grayscale(0.3)!important;
+
+    +.item {
+        filter: grayscale(0.3) !important;
     }
-    + .item + .item + .item + .item {
-        filter: grayscale(0.6)!important;
+
+    +.item+.item+.item+.item {
+        filter: grayscale(0.6) !important;
     }
-    + .item + .item + .item {
-        filter: grayscale(0.4)!important;
+
+    +.item+.item+.item {
+        filter: grayscale(0.4) !important;
     }
-    + .item + .item {
-        filter: grayscale(0.7)!important;
+
+    +.item+.item {
+        filter: grayscale(0.7) !important;
     }
 }
