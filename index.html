@@ -30,12 +30,12 @@
             const item = document.createElement("div");
             item.classList.add("item");
             item.id = "item-" + index
-            
+
             // Definir tamaño aleatorio
-            
+
             const img = document.createElement("img");
             let number = Math.floor(Math.random() * 8)
-            img.src = "./images/image"+number+ (number === 0 ? ".png":".jpg")
+            img.src = "./images/image" + number + (number === 0 ? ".png" : ".jpg")
             item.appendChild(img)
 
             // Asignar color y contenido
@@ -88,7 +88,8 @@
         // Inicializar lista y evento de scroll
         populateList();
         document.addEventListener("scroll", handleScroll);
-    </script>
+
+        </script>
 
 
 </body>
